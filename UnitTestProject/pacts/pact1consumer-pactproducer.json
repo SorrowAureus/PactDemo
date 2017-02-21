@@ -1,0 +1,72 @@
+{
+  "provider": {
+    "name": "PactProducer"
+  },
+  "consumer": {
+    "name": "Pact1Consumer"
+  },
+  "interactions": [
+    {
+      "description": "ShouldReturnObjectIfCreateSucceeds",
+      "provider_state": "Creating new product",
+      "request": {
+        "method": "post",
+        "path": "/api/Values/CreateProduct/",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "Type": "TypTvå"
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "Id": 10,
+          "Time": "1984-01-01T00:00:00",
+          "Type": "TypTvå"
+        }
+      }
+    },
+    {
+      "description": "ShouldReturnNullIfMissing",
+      "provider_state": "No subject with id '8' exists",
+      "request": {
+        "method": "get",
+        "path": "/api/Values/Product/8",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 404
+      }
+    },
+    {
+      "description": "ShouldReturnProductIfExists",
+      "provider_state": "Subject with id '1' exists",
+      "request": {
+        "method": "get",
+        "path": "/api/Values/Product/1",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "Id": 1,
+          "Time": "1984-01-01T00:00:00",
+          "Type": "TypEtt"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecificationVersion": "1.1.0"
+  }
+}

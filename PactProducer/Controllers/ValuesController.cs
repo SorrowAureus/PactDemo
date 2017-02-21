@@ -1,40 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+﻿using System.Web.Http;
+using PactProducer.Models;
+using PactProducer.Models.Services;
 
-namespace PactProducer.Controllers
-{
-    [Authorize]
-    public class ValuesController : ApiController
-    {
-        // GET api/values
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
+namespace PactProducer.Controllers {
+    /// <summary>
+    /// All the values
+    /// </summary>
+    [NullObjectActionFilter]
+    public class ValuesController : ApiController {
+        private readonly IResultService _service;
+
+        public ValuesController(IResultService service) {
+            _service = service;
         }
 
-        // GET api/values/5
-        public string Get(int id)
-        {
-            return "value";
+        /// <summary>
+        /// Test endpoint
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ProducerModel Product(int id) {
+            return _service.GetProduct(id);
+
         }
 
-        // POST api/values
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
+        [HttpPost]
+        public IHttpActionResult CreateProduct([FromBody]Parameter type) {
+            return Created("", _service.CreateProduct(type));
         }
     }
 }
